@@ -14,18 +14,18 @@ class Category(models.Model):
         return self.catogory_name
     
 STATUS_CHOICES = (
-    (0,"Draft"),
-    (1,"Published")
+    ("Draft","Draft"),
+    ("Published","Published")
 )
 class Blog(models.Model):
     title = models.CharField(max_length=50)
     slug = models.SlugField(max_length=150, unique=True, blank=True)
-    Category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     featured_image = models.ImageField( upload_to='uploads/%Y/%m/%d', height_field=None, width_field=None, max_length=None)
     short_description = models.TextField(max_length=500)
     blog_body = models.TextField(max_length=800)
-    status = models.IntegerField(choices=STATUS_CHOICES)
+    status = models.CharField(max_length=20,choices=STATUS_CHOICES,default="Draft")
     is_featured = models.BooleanField(default=False)
     created_at = models.DateTimeField( auto_now_add=True)
     updated_at = models.DateTimeField( auto_now=True)
